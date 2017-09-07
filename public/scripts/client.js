@@ -26,6 +26,7 @@ function addInventory() {
             
         }
     });
+    getInventory()
 }
 
 function getInventory() {
@@ -34,12 +35,12 @@ function getInventory() {
         url: '/inventory',
         success: function (response) {
             console.log('onReady ajax. response ->', response);
+            $('#addSection').empty();
             var $div = $('<div>');
             for (var i = 0; i < response.length; i++) {
                 $div.append('<p>' + response[i] + '</p>');
             }
-            $('main').append($div);
-
+            $('#addSection').append($div);
         }
     });
 }
