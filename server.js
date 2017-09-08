@@ -3,6 +3,10 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 
+// this exports the result of the route, which 
+// is the same as the app.get call
+var indexRouter = require('./routes/index');
+
 // globals
 var app = express();
 var port = 3000;
@@ -11,23 +15,19 @@ var port = 3000;
 app.use(bodyParser.urlencoded({ extended: true })); // middleware
 app.use(express.static( 'public' )); // sets source folder for client side
 
+// routes
+app.use('/', indexRouter)
+
 //listen
 app.listen(port, function() {
-    console.log('listening on', port);
-    
+    console.log('listening on', port); 
 }); // end listen
-
-//base url
-app.get('/', function(req, res) {
-    res.sendFile(path.resolve('public/views/index.html') );
-}); // end base
 
 // global inventory variable
 var inventory = ['the ring', 'trousers', 'buttons', 'hairy feet'];
 
 app.get('/inventory', function(reg, res) {
     console.log('in get inventory route');
-    
     res.send(inventory);
 });
 
