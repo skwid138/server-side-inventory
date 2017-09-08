@@ -41,6 +41,7 @@ function getInventory() {
                 $div.append('<p>' + response[i] + '</p>');
             }
             $('#addSection').append($div);
+            $('#addInput').val('');
         }
     });
 }
