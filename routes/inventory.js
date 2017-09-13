@@ -35,7 +35,7 @@ router.get('/', function (reg, res) {
 
 router.post('/', function (req, res) {
     console.log('in post inventory route', req.body);
-    var item = req.body.item;
+    var clientItem = req.body.item;
     pool.connect(function (error, client, done) {
         if (error) {
             console.log('connection error ->', error);
@@ -47,14 +47,14 @@ router.post('/', function (req, res) {
             // callback func that will run when query is complete
             var queryString = 'INSERT INTO inventory (item) VALUES ($1)';
             // $1 is the first item in the values array $2, would be the 2nd item of the array
-            var values = [item];
+            var values = [clientItem];
+            // could also be var values = [req.body.item] followed by any additional parameters in the object
             client.query(queryString, values, function (queryError, resultObj) {
                 done();
                 if (queryError) {
                     console.log('query error ->', queryError);
                     res.sendStatus(500);
                 } else {
-                    console.log('result object ->', resultObj);
                     res.sendStatus(201);
                 } // end client if else
             }); // end client query
