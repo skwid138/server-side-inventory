@@ -26,7 +26,7 @@ function addInventory() {
             
         }
     });
-    getInventory()
+    getInventory();
 }
 
 function getInventory() {
