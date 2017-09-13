@@ -38,7 +38,7 @@ function getInventory() {
             $('#addSection').empty();
             var $div = $('<div>');
             for (var i = 0; i < response.length; i++) {
-                $div.append('<p>' + response[i] + '</p>');
+                $div.append('<p>' + response[i].item + '</p>');
             }
             $('#addSection').append($div);
             $('#addInput').val('');
