@@ -1,4 +1,5 @@
--- name of DB inventory
+-- DB name: inventory
+-- could have DB create command here
 
 -- create syntax for table
 CREATE TABLE inventory (
