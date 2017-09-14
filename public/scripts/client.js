@@ -60,7 +60,7 @@ function removeItem( ) {
         url: '/inventory/' + clickId,
         success: function( response ) {
             console.log('server delete response ->', response);
-            getInventory();
+            //getInventory();
         } // end success
     }); // end ajax
 }

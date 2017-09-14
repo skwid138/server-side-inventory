@@ -36,16 +36,14 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
     console.log('in post inventory route', req.body);
     var clientItem = req.body.item;
-    var clientId = req.body.id; // id for delete
+    var clientId = req.body.id; // id to send to client for use with delete
     pool.connect(function (error, client, done) {
         if (error) {
             console.log('connection error ->', error);
             res.sendStatus(500);
             done();
         } else {
-            // query string
-            // values to insert into the query string
-            // callback func that will run when query is complete
+            // added id and $2
             var queryString = 'INSERT INTO inventory (id, item) VALUES ($1 $2)';
             // $1 is the first item in the values array $2, would be the 2nd item of the array
             var values = [clientId, clientItem];
@@ -62,5 +60,13 @@ router.post('/', function (req, res) {
         } // end connect else
     }); // end pool connect
 });
+
+router.delete('/:id', function( req, res) {
+    console.log('in inventory delete route');
+    var itemId = req.params.id;
+    console.log('itemId to delete ->', itemId);
+    
+    res.sendStatus(200);
+}); // end delete
 
 module.exports = router;
