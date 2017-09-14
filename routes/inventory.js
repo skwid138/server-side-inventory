@@ -64,9 +64,25 @@ router.post('/', function (req, res) {
 router.delete('/:id', function( req, res) {
     console.log('in inventory delete route');
     var itemId = req.params.id;
-    console.log('itemId to delete ->', itemId);
-    
-    res.sendStatus(200);
+    pool.connect(function (error, client, done) {
+        if (error) {
+            console.log('connection error ->', error);
+            res.sendStatus(500);
+            done();
+        } else {
+            var queryString = 'DELETE FROM inventory WHERE id=$1';
+            var values = [itemId];
+            client.query(queryString, values, function (queryError, resultObj) {
+                done();
+                if (queryError) {
+                    console.log('query error ->', queryError);
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                } // end client if else
+            }); // end client query
+        } // end connect else
+    }); // end pool connect
 }); // end delete
 
 module.exports = router;
