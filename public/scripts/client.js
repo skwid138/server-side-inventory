@@ -36,11 +36,14 @@ function getInventory() {
         success: function (response) {
             console.log('onReady ajax. response ->', response);
             $('#addSection').empty();
-            var $div = $('<div>');
             for (var i = 0; i < response.length; i++) {
-                $div.append('<p>' + response[i].item + '</p>');
+                var $p = $('<p>');
+                 $p.append(response[i].item + '  ');
+                $p.data('id', response[i].id); // primary id for each item
+                $p.append('<button class="deleteMe">Delete</button>'); // adds delete button to each item
+                $('#addSection').append($p);
             }
-            $('#addSection').append($div);
+            //$('#addSection').append($div);
             $('#addInput').val('');
         }
     });

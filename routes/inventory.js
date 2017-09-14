@@ -2,7 +2,7 @@ var router = require('express').Router();
 var pool = require('../modules/pool');
 
 // query DB and send back data
-router.get('/', function (reg, res) {
+router.get('/', function (req, res) {
     console.log('in get inventory route');
     pool.connect(function(connectionError, client, done) {// called once a connection happens
         // connectionError - if error occurs connect to the DB
@@ -36,6 +36,7 @@ router.get('/', function (reg, res) {
 router.post('/', function (req, res) {
     console.log('in post inventory route', req.body);
     var clientItem = req.body.item;
+    var clientId = req.body.id; // id for delete
     pool.connect(function (error, client, done) {
         if (error) {
             console.log('connection error ->', error);
@@ -45,9 +46,9 @@ router.post('/', function (req, res) {
             // query string
             // values to insert into the query string
             // callback func that will run when query is complete
-            var queryString = 'INSERT INTO inventory (item) VALUES ($1)';
+            var queryString = 'INSERT INTO inventory (id, item) VALUES ($1 $2)';
             // $1 is the first item in the values array $2, would be the 2nd item of the array
-            var values = [clientItem];
+            var values = [clientId, clientItem];
             // could also be var values = [req.body.item] followed by any additional parameters in the object
             client.query(queryString, values, function (queryError, resultObj) {
                 done();
