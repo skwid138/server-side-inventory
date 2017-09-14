@@ -5,6 +5,9 @@ function onReady( ) {
     getInventory();
 
     $('#addButton').on('click', addInventory);
+
+    // listener for delete button
+    $('#addSection').on('click', '.deleteMe', removeItem);
 }
 
 function addInventory() {
@@ -38,15 +41,28 @@ function getInventory() {
             $('#addSection').empty();
             for (var i = 0; i < response.length; i++) {
                 var $p = $('<p>');
-                 $p.append(response[i].item + '  ');
+                $p.append(response[i].item + '  ');
                 $p.data('id', response[i].id); // primary id for each item
                 $p.append('<button class="deleteMe">Delete</button>'); // adds delete button to each item
                 $('#addSection').append($p);
             }
-            //$('#addSection').append($div);
             $('#addInput').val('');
         }
     });
+}
+
+function removeItem( ) {
+    console.log('in removeItem func');
+    var clickId = $(this).parent().data('id');
+    
+    $.ajax({
+        method: 'DELETE',
+        url: '/inventory/' + clickId,
+        success: function( response ) {
+            console.log('server delete response ->', response);
+            getInventory();
+        } // end success
+    }); // end ajax
 }
 
 $(document).ready(onReady);
